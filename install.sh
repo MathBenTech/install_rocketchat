@@ -33,10 +33,13 @@ EOF
 
 sudo sed -i "s/^#  engine:/  engine: mmapv1/"  /etc/mongod.conf
 sudo sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
-sudo systemctl enable mongod && sudo systemctl start mongod
-mongo --eval "printjson(rs.initiate())"
-sudo systemctl enable rocketchat && sudo systemctl start rocketchat
+sudo systemctl enable mongod
+sudo systemctl enable rocketchat
 
-sleep 5
-sudo systemctl restart rocketchat
+sudo systemctl start mongod
+sleep 15
+sudo systemctl restart mongod
+sleep 3
+mongo --eval "printjson(rs.initiate())"
+sudo systemctl start rocketchat
 
